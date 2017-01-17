@@ -10,11 +10,22 @@ import (
 	"io"
 	"strings"
 	"sync"
+
+	"github.com/centrifugal/centrifugo/libcentrifugo/metrics"
+	"github.com/centrifugal/centrifugo/libcentrifugo/plugin"
 )
+
+func init() {
+	metricsRegistry := plugin.Metrics
+
+	metricsRegistry.RegisterCounter("gorilla_websocket_new_flate_writer", metrics.NewCounter())
+	metricsRegistry.RegisterCounter("gorilla_websocket_flate_writer_from_pool", metrics.NewCounter())
+}
 
 var (
 	flateWriterPool = sync.Pool{New: func() interface{} {
-		fw, _ := flate.NewWriter(nil, 3)
+		plugin.Metrics.Counters.Inc("gorilla_websocket_new_flate_writer")
+		fw, _ := flate.NewWriter(nil, 1)
 		return fw
 	}}
 	flateReaderPool = sync.Pool{New: func() interface{} {
@@ -37,6 +48,7 @@ func decompressNoContextTakeover(r io.Reader) io.ReadCloser {
 func compressNoContextTakeover(w io.WriteCloser) io.WriteCloser {
 	tw := &truncWriter{w: w}
 	fw, _ := flateWriterPool.Get().(*flate.Writer)
+	plugin.Metrics.Counters.Inc("gorilla_websocket_flate_writer_from_pool")
 	fw.Reset(tw)
 	return &flateWriteWrapper{fw: fw, tw: tw}
 }
