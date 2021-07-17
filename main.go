@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	stdlog "log"
 	"net"
 	"net/http"
@@ -163,6 +162,8 @@ var configDefaults = map[string]interface{}{
 	"proxy_rpc_timeout":                    1,
 	"proxy_refresh_endpoint":               "",
 	"proxy_refresh_timeout":                1,
+	"proxy_subscribe_timeout":              1,
+	"proxy_publish_timeout":                1,
 	"memory_history_meta_ttl":              0,
 	"redis_history_meta_ttl":               0,
 	"v3_use_offset":                        false, // TODO v3: remove.
@@ -664,7 +665,7 @@ func writePidFile(pidFile string) error {
 		return nil
 	}
 	pid := []byte(strconv.Itoa(os.Getpid()) + "\n")
-	return ioutil.WriteFile(pidFile, pid, 0644)
+	return os.WriteFile(pidFile, pid, 0644)
 }
 
 var logLevelMatches = map[string]zerolog.Level{
