@@ -34,7 +34,7 @@ require (
 	github.com/quic-go/webtransport-go v0.9.0
 	github.com/rakutentech/jwk-go v1.2.0
 	github.com/rs/zerolog v1.34.0
-	github.com/spf13/cobra v1.9.1
+	github.com/spf13/cobra v1.10.1
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.11.1
 	github.com/tidwall/gjson v1.18.0
