@@ -173,7 +173,7 @@ func (c *KafkaConsumer) initClient() (*kgo.Client, error) {
 		kgo.FetchMaxWait(time.Duration(c.config.FetchMaxWait)),
 		kgo.WithLogger(&kgoZerologAdapter{log: c.common.log}),
 	}
-	if c.config.InstanceID != "" {
+	if c.config.InstanceID != "" { // Important to keep separate, otherwise pointer to empty string is used in kgo.InstanceID.
 		opts = append(opts, kgo.InstanceID(c.config.InstanceID))
 	}
 	if c.config.FetchMaxBytes > 0 {

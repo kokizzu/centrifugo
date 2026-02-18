@@ -16,6 +16,7 @@ For details, go to the [Centrifugo documentation site](https://centrifugal.dev).
 * Centrifugo Helm chart v13 [was released](https://github.com/centrifugal/helm-charts/releases/tag/centrifugo-13.0.0) - comes with many improvements, documentation and examples. 
 * Adopt latest `quic-go` and `webtransport-go` changes, WebTransport test [#1101](https://github.com/centrifugal/centrifugo/pull/1101)
 * Refactor metrics – makes metrics configurable on server start and discoverable from one place [#1093](https://github.com/centrifugal/centrifugo/pull/1093)
+* Kafka consumer: avoid using static instance id by default, add logging, eliminate one extra goroutine per partition, improved shutdown [#1105](https://github.com/centrifugal/centrifugo/pull/1105)
 
 ### Fixes
 
